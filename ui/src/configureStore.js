@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 // import createReducer from './reducers';
 import reducers from "./components/page/taskManager/reducers"
+import saga from "./components/page/taskManager/saga"
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -35,7 +36,7 @@ export default function configureStore(initialState = {}, history) {
   );
 
   // Extensions
-  store.runSaga = sagaMiddleware.run;
+  store.runSaga = sagaMiddleware.run(saga)
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
 

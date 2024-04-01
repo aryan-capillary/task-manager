@@ -27,7 +27,7 @@ const App = ({children,id}) => {
         {children}
       </Button>
       <Modal
-        title="Title"
+        title="Edit Form"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}

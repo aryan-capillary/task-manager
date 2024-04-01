@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox, Form, Input,Radio } from 'antd';
+import { Button, Form, Input,Radio } from 'antd';
 
-const App = ({closeModal,createTask}) => {
+const App = ({closeModal,updateTask,task,id}) => {
+    console.log("id",id,task)
     const onFinish = (values) => {
         console.log('Success:', values);
-        createTask({...values,key:"4"})
+        updateTask({...task[0],...values})
         closeModal()
       };
       const onFinishFailed = (errorInfo) => {
@@ -25,15 +26,19 @@ const App = ({closeModal,createTask}) => {
       maxWidth: 600,
     }}
     initialValues={{
-      remember: true,
-    }}
+        title: task[0]?.title,
+        description: task[0]?.description,
+        status: task[0]?.status,
+      }}
     onFinish={onFinish}
     onFinishFailed={onFinishFailed}
     autoComplete="off"
+    
   >
     <Form.Item
       label="Title"
       name="title"
+      value ={task?.title}
       rules={[
         {
           required: true,
@@ -41,11 +46,11 @@ const App = ({closeModal,createTask}) => {
         },
       ]}
     >
-      <Input />
+      <Input value ={task?.title}/>
     </Form.Item>
     <Form.Item
-      label="Discriptation"
-      name="discriptation"
+      label="Descripition"
+      name="description"
       rules={[
         {
           required: true,
@@ -69,22 +74,23 @@ const App = ({closeModal,createTask}) => {
       }}
     >
       <Button type="primary" htmlType="submit">
-        Create
+        Update Task
       </Button>
     </Form.Item>
   </Form>
 )};
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state,props)=>{
     return {
-           
+      task: state.get('taskList').toJS().filter((value)=>{
+        return value.id === props?.id
+      }),
     }
-}
+  }
   function mapDispatchToProps(dispatch) {
     return {
-      createTask:(task)=>{dispatch({type:"ADD_TASK",task:task})} 
+      updateTask:(task)=>{dispatch({type:"UPDATE_TASK",task})} 
     };
   }
+
   
-  
-  export default  connect(null,mapDispatchToProps)(App)
-// export default App;
+export default  connect(mapStateToProps,mapDispatchToProps)(App)

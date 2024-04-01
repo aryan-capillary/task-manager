@@ -1,11 +1,10 @@
 import React from "react"
 import { Layout, Flex,Button } from 'antd';
-import Table from "../../atom/Table/Table"
-import Modal from "../../atom/Modal/Modal"
+import Table from "../../Table/Table"
+import Modal from "../../Modal/Modal"
 
 const { Header, Footer, Content } = Layout;
 const headerStyle = {
-    // textAlign: 'center',
     color: '#fff',
     height: 64,
     paddingInline: 48,
@@ -29,8 +28,6 @@ const headerStyle = {
   const layoutStyle = {
     borderRadius: 8,
     overflow: 'hidden',
-    // width: 'calc(50% - 8px)',
-    // maxWidth: 'calc(50% - 8px)',
   };
 function TaskManager() {
 

@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
-import CreateForm from "../Form/CreateTaskForm"
-const App = ({children}) => {
+import { connect } from 'react-redux';
+const DeleteModal = ({children,task,id,deleteTask}) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
   const showModal = () => {
     setOpen(true);
   };
   const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
+    console.log("testing",task[0])
+    deleteTask(task[0])
     setConfirmLoading(true);
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
-    }, 2000);
+    }, 500);
   };
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setOpen(false);
   };
   return (
@@ -26,17 +25,30 @@ const App = ({children}) => {
         {children}
       </Button>
       <Modal
-        title="Title"
+        title="Delete Task"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
-          footer={null}
       >
-        
-        <CreateForm closeModal = {handleCancel}/>
+       <div>Do you want to delete this Task</div>
       </Modal>
     </>
   );
+  
 };
-export default App;
+const mapStateToProps = (state,props)=>{
+    return {
+      task: state.get('taskList').toJS().filter((value)=>{
+        return value.id == props?.id
+      }),
+    }
+  }
+  function mapDispatchToProps(dispatch) {
+    return {
+      deleteTask:(task)=>{dispatch({type:"DELETE",task})} 
+    };
+  }
+
+  
+export default  connect(mapStateToProps,mapDispatchToProps)(DeleteModal)

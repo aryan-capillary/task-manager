@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Space, Table, Tag, Button } from 'antd';
 import { connect } from 'react-redux';
 import EditModal from "../Modal/EditModal"
+import DeleteModal from "../Modal/DeleteModal"
 
 const columns = [
   {
@@ -11,9 +12,9 @@ const columns = [
     render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Discription',
-    dataIndex: 'discriptation',
-    key: 'discriptation',
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
   },
   {
     title: 'Status',
@@ -29,32 +30,33 @@ const columns = [
     title: 'Action',
     key: 'action',
     render: (_, record) => {
-      console.log("record",record)
       return (
       <Space size="middle">
-        <EditModal id = {record?.key}> Edit </EditModal>
+        <EditModal id = {record?.id}> Edit </EditModal>
+        <DeleteModal id = {record?.id}> Delete </DeleteModal>
       </Space>
     )},
   },
+
 ];
 
 const data = [
   {
     key: '1',
     title: 'Learn Guitar',
-    discriptation: 'Have to learn guitar daily 1 hour',
+    description: 'Have to learn guitar daily 1 hour',
     status: 'incomplete',
   },
   {
     key: '2',
     title: 'Study Stock Market',
-    discriptation: 'study stock market for latest copany',
+    description: 'study stock market for latest copany',
     status: 'completed',
   },
   {
     key: '3',
     title: 'Buy Food',
-    discriptation: 'buy food for myself',
+    description: 'buy food for myself',
     status: 'completed',
 
   },
@@ -62,24 +64,32 @@ const data = [
 
 
 
-const App = ({taskList}) => {
-  console.log("data",taskList)
+const ListTable = ({taskList,getTask,taskLoading}) => {
+  useEffect(()=>{
+    getTask()
+  },[])
+
+  if(taskLoading){
+    return (<div>Loading....</div>)
+  }
 return (
   <Table columns={columns} dataSource={taskList} pagination={false} />
 )
 }
 
 const mapStateToProps = (state)=>{
+  console.log('task loading',state.get('taskLoading'))
   return {
     taskList: state.get('taskList').toJS(),
+    taskLoading: state.get('taskLoading'),
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    createTask:(task)=>{dispatch({type:"ADD_TASK",task:task})} 
+    getTask:()=>{dispatch({type:"GET_TASK"})} 
   };
 }
 
-export default  connect(mapStateToProps,mapDispatchToProps)(App)
+export default  connect(mapStateToProps,mapDispatchToProps)(ListTable)
 
 // export default App;

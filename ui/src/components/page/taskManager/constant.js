@@ -1,4 +1,9 @@
+export const ADD_INITIAL_TASK = 'ADD_INITIAL_TASK';
 export const ADD_TASK = 'ADD_TASK';
+export const ADD_TASK_NEW = 'ADD_TASK_NEW';
 export const UPDATE_TASK = 'UPDATE_TASK';
+export const EDIT_TASK = 'EDIT_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
 export const IS_MODAL_OPEN = 'IS_MODAL_OPEN';
+export const LOADING_START = 'LOADING_START';
+export const LOADING_COMPLETED = 'LOADING_COMPLETED';
