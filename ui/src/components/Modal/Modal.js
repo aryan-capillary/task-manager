@@ -20,11 +20,11 @@ const App = ({children}) => {
   };
   return (
     <>
-      <Button type="primary" danger onClick={showModal}>
+      <Button type="primary" danger onClick={showModal} data-testid="modal-button">
         {children}
       </Button>
       <Modal
-        title="Title"
+        title="Create Task Form"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
